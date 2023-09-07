@@ -1,0 +1,37 @@
+"""
+Here is where the testing will be done
+
+"""
+
+import unittest
+from customer import Customer
+
+class Testcustomer(unittest.TestCase):
+    """
+    run some test cases on the customer class created in
+    `customer.py`
+
+    """
+
+    def setUp(self):
+        self.customer_1 = Customer("Kojo", "Nahiri", 5000)
+        self.customer_2 = Customer("Oko", "Nana", 3000)
+
+    def test_customer_mail(self):
+        self.assertEqual(self.customer_1.customer_mail, "Kojo.Nahiri@email.com")
+        self.assertEqual(self.customer_2.customer_mail, "Oko.Nana@email.com" )
+
+    def test_customer_fullname(self):
+        self.assertEqual(self.customer_1.customer_fullname, "Kojo Nahiri")
+        self.assertEqual(self.customer_2.customer_fullname, "Oko Nana")
+
+
+    def test_customer_discount_applied(self):
+        self.customer_1.discount()
+        self.customer_2.discount()
+
+        self.assertEqual(self.customer_1.purchase, 4750)
+        self.assertEqual(self.customer_2.purchase, 2850)
+
+if __name__ == "__main__":
+    unittest.main()

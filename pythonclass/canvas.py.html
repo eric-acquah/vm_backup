@@ -1,0 +1,24 @@
+<html><head>
+<title>canvas.py</title>
+<meta name="Generator" content="htmlizer/[Twisted, version 18.9.0]" />
+<link rel="alternate" href="canvas.py" type="text/x-python" />
+
+</head>
+<body>
+<pre><span class="py-src-variable">import</span> <span class="py-src-variable">tkinter</span> <span class="py-src-variable">as</span> <span class="py-src-variable">tk</span>
+
+<span class="py-src-variable">def</span> <span class="py-src-identifier">main</span>():
+    <span class="py-src-variable">window</span> = <span class="py-src-variable">tk</span>.<span class="py-src-variable">Tk</span>()
+    <span class="py-src-variable">window</span>.<span class="py-src-variable">title</span>(<span class="py-src-string">&quot;Canvas Example&quot;</span>)
+
+    <span class="py-src-variable">canvas</span> = <span class="py-src-variable">tk</span>.<span class="py-src-variable">Canvas</span>(<span class="py-src-variable">window</span>, <span class="py-src-variable">width</span>=<span class="py-src-number">300</span>, <span class="py-src-variable">height</span>=<span class="py-src-number">200</span>)
+    <span class="py-src-variable">canvas</span>.<span class="py-src-variable">pack</span>()
+
+    <span class="py-src-variable">canvas</span>.<span class="py-src-variable">create_oval</span>(<span class="py-src-number">50</span>, <span class="py-src-number">50</span>, <span class="py-src-number">150</span>, <span class="py-src-number">150</span>, <span class="py-src-variable">fill</span>=<span class="py-src-string">&#x27;blue&#x27;</span>)  <span class="py-src-comment"># Draw a circle with a diameter of 100 pixels</span>
+
+    <span class="py-src-variable">window</span>.<span class="py-src-variable">mainloop</span>()
+
+    <span class="py-src-variable">if</span> <span class="py-src-variable">__name__</span> == <span class="py-src-string">&#x27;__main__&#x27;</span>:
+        <span class="py-src-variable">main</span>()
+</pre>
+</body>

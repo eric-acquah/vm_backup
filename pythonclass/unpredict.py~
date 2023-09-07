@@ -1,0 +1,20 @@
+"""
+TDD - unpredictabale test out put
+"""
+
+class Jclass():
+    pass
+
+def unpredictable(obj):
+    #expecting unpredictable output
+
+    """
+    >>> unpredictable(Jclass()) #doctest: +ELLIPSIS
+    [<unpredict.Jclass object at 0x...>]
+
+    """
+    return [obj]
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

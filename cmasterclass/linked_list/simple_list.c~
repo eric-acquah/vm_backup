@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/**
+ *main - test code
+ *
+ *Return: 0 (Success)
+ */
+
+typedef struct node
+{
+	int data;
+	struct node *link;
+}node_t;
+
+void create_list(void);
+
+int main(void)
+{
+	create_list();
+	return (0);
+}
+
+
+void create_list(void)
+{
+	int i;
+	int count = 0;
+	node_t *head, *nxt, *tmp;
+	head = 0;
+	/* head = nxt; */
+
+	for (i = 0; i < 3; i++)
+	{
+		nxt = (node_t *)malloc(sizeof(node_t));
+
+		if (head == 0)
+		{
+			tmp = nxt;
+			head = tmp;
+			tmp->data = 0;
+			tmp->link = 0;
+		}
+		else
+		{
+			tmp->link = nxt;
+			tmp->link->data = 0 + i;
+			tmp->link->link = 0;
+			tmp = nxt;
+		}
+	}
+
+	while (head != 0)
+	{
+		printf("Node[%d] = %d\n", count, head->data);
+		head = head->link;
+		count++;
+	}
+
+}

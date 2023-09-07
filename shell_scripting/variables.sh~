@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "hello!"
+echo "Please enter your name and age: "
+
+read NAME AGE
+
+echo "Dear $NAME, fast forward into your future, when you are about $AGE years old, you will be unstopable!"
+
+pwd

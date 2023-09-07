@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#receieve user input
+
+echo "Enter your name and age: "
+read name age
+
+echo "Hello $name, you are $age years old."

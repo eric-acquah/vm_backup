@@ -1,0 +1,178 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <limits.h>
+#include <errno.h>
+#include <sys/stat.h>
+
+/**
+ *main - get the path environment variable
+ *
+ *Return: 0
+ */
+
+void free_grid(char **ptr, int blocks);
+
+void validate_cmd(char **tokens);
+
+char **parsed_str(char *str);
+
+char *_strcat(char *str1, char *str2);
+
+char *_strcpy(char *dest, char *src);
+
+int main(int ac, char **av, char **env)
+{
+	int i, j;
+	char **path;
+	/* char my_dir[PATH_MAX - 100]; */
+
+	(void)ac;
+	(void)av;
+
+	i = 0;
+	while (env[i] != NULL)
+	{
+		for (j = 0; env[i][j] != '\0'; j++)
+		{
+			if (env[i][j] == 'P' && env[i][j + 1] == 'A')
+			{
+				path = parsed_str(env[i]);
+				break;
+			}
+		}
+		i++;
+	}
+
+	validate_cmd(path);
+	/* printf("%s\n", my_dir); */
+
+	free_grid(path, 50);
+	return (0);
+}
+
+char **parsed_str(char *str)
+{
+	int i, j;
+	char *token;
+	char **tokens;
+
+	/*Tokenization*/
+	tokens = (char **)malloc(sizeof(char *) * strlen(str));
+	if (tokens == NULL)
+	{
+		exit(1);
+	}
+	for (j = 0; j < PATH_MAX; j++)
+	{
+		tokens[j] = (char *)malloc(sizeof(char) * 50);
+		if (tokens[j] == NULL)
+		{
+			while (j > 0)
+			{
+				free(tokens[j--]);
+			}
+			/* free_grid(tokens, 50); */
+			exit(1);
+		}
+	}
+
+	token = strtok(str, ":");
+	i = 0;
+	while (token != NULL)
+	{
+		tokens[i] = token;
+		token = strtok(NULL, ":");
+		if (tokens[i] == NULL)
+		{
+			perror("Failed to tokenize string..");
+			free_grid(tokens, 50);
+			exit(2);
+		}
+		i++;
+	}
+	tokens[i] = NULL;
+
+	return (tokens);
+}
+
+void free_grid(char **ptr, int blocks)
+{
+	int i;
+
+	for (i = 0; i < blocks; i++)
+	{
+		free(ptr[i]);
+	}
+	free(ptr);
+}
+
+char *_strcat(char *str1, char *str2)
+{
+	int i, j;
+
+	for (i = 0; str1[i] != '\0';)
+		i++;
+
+	for (j = 0; str2[j] != '\0'; j++)
+	{
+		str1[i] = str2[j];
+		i++;
+	}
+	str1[i] = '\0';
+
+	return (str1);
+}
+
+char *_strcpy(char *dest, char *src)
+{
+	int i;
+
+	for (i = 0; src[i] != '\0'; i++)
+		dest[i] = src[i];
+	dest[i] = '\0';
+
+	return (dest);
+}
+
+void validate_cmd(char **tokens)
+{
+	pid_t cid;
+	char *argv[] = {"ls", "-l", NULL};
+	char *usr_cmd = "/ls";
+	int i, status;
+	char buf[21];
+	struct stat ptr;
+
+	cid = fork();
+
+	if (cid == -1)
+		exit(1);
+
+	else if (cid == 0)
+	{
+		i = 0;
+		while (tokens[i] != NULL)
+		{
+			strcpy(buf, tokens[i]);
+			strcat(buf, usr_cmd);
+
+			if (stat(buf, &ptr) == 0)
+			{
+				if (access(buf, F_OK | X_OK) == 0)
+				{
+					execve(buf, argv, NULL);
+				}
+				perror("Failed");
+			}
+			else
+				printf("Next dir...\n");
+			i++;
+		}
+	}
+	else
+		wait(&status);
+}
